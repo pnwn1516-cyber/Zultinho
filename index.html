@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Hub — ห้องเรียนออนไลน์</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts Inter & Prompt for Thai typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            dark: '#0f172a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Prompt', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col custom-scrollbar">
+
+    <!-- Top Bar / Navigation -->
+    <header class="bg-brand-900 text-white shadow-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo & Title -->
+                <div class="flex items-center space-x-3">
+                    <div class="bg-blue-500 text-white p-2 rounded-xl shadow-lg flex items-center justify-center">
+                        <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold tracking-tight text-white block">Learning Hub</span>
+                        <span class="text-xs text-blue-200 block -mt-1">ห้องเรียนออนไลน์ วิทยาการคำนวณ</span>
+                    </div>
+                </div>
+
+                <!-- Role Selector Toggle -->
+                <div class="flex items-center space-x-3 bg-brand-800/80 p-1.5 rounded-full border border-blue-400/30">
+                    <button id="role-student-btn" onclick="switchRole('student')" class="flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 bg-white text-brand-900 shadow">
+                        <i data-lucide="user" class="w-3.5 h-3.5"></i>
+                        <span>มุมมองนักเรียน</span>
+                    </button>
+                    <button id="role-teacher-btn" onclick="switchRole('teacher')" class="flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 text-blue-200 hover:text-white">
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                        <span>มุมมองครู (คุณครูภูธเนศ)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="bg-brand-800 border-t border-brand-700/50">
+            <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+                <div class="flex space-x-1 sm:space-x-4 overflow-x-auto py-2 px-1 text-sm font-medium">
+                    <button onclick="navigateTo('dashboard')" id="nav-dashboard" class="nav-btn flex items-center space-x-2 px-3 py-2 rounded-lg text-white bg-brand-600 shadow-sm transition whitespace-nowrap">
+                        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                        <span>แดชบอร์ด</span>
+                    </button>
+                    <button onclick="navigateTo('lessons')" id="nav-lessons" class="nav-btn flex items-center space-x-2 px-3 py-2 rounded-lg text-blue-100 hover:bg-brand-700/60 hover:text-white transition whitespace-nowrap">
+                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                        <span>บทเรียนวิดีโอ</span>
+                    </button>
+                    <button onclick="navigateTo('quizzes')" id="nav-quizzes" class="nav-btn flex items-center space-x-2 px-3 py-2 rounded-lg text-blue-100 hover:bg-brand-700/60 hover:text-white transition whitespace-nowrap">
+                        <i data-lucide="help-circle" class="w-4 h-4"></i>
+                        <span>แบบทดสอบ</span>
+                    </button>
+                    <button onclick="navigateTo('assignments')" id="nav-assignments" class="nav-btn flex items-center space-x-2 px-3 py-2 rounded-lg text-blue-100 hover:bg-brand-700/60 hover:text-white transition whitespace-nowrap">
+                        <i data-lucide="file-check-2" class="w-4 h-4"></i>
+                        <span>ส่งงานออนไลน์</span>
+                    </button>
+                    <button onclick="navigateTo('game')" id="nav-game" class="nav-btn flex items-center space-x-2 px-3 py-2 rounded-lg text-amber-300 hover:bg-brand-700/60 hover:text-amber-200 transition whitespace-nowrap">
+                        <i data-lucide="gamepad-2" class="w-4 h-4"></i>
+                        <span class="font-bold">เกมตอบคำถาม Cyber</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
+
+        <!-- Banner Alert / User Status Indicator -->
+        <div id="user-status-banner" class="mb-6 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl p-4 shadow-md flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm text-2xl font-bold">
+                    👨‍🎓
+                </div>
+                <div>
+                    <h2 class="text-lg font-bold" id="user-greeting">สวัสดี, สมชาย สายเรียน (นักเรียน ม.1/1)</h2>
+                    <p class="text-xs text-blue-100" id="user-subtitle">วิชา วิทยาการคำนวณ (ว 4.2) — หน่วยที่ 6 การใช้เทคโนโลยีสารสนเทศอย่างปลอดภัย</p>
+                </div>
+            </div>
+            <!-- Overall Progress Widget -->
+            <div class="w-full md:w-64 bg-white/10 p-3 rounded-xl border border-white/20 backdrop-blur-sm">
+                <div class="flex justify-between text-xs font-semibold mb-1">
+                    <span>ความคืบหน้าการเรียนรวม</span>
+                    <span id="overall-progress-text">65%</span>
+                </div>
+                <div class="w-full bg-blue-950/40 rounded-full h-2.5 overflow-hidden">
+                    <div id="overall-progress-bar" class="bg-emerald-400 h-2.5 rounded-full transition-all duration-500" style="width: 65%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== PAGE 1: DASHBOARD ==================== -->
+        <section id="page-dashboard" class="page-section space-y-6">
+            <!-- Stats Grid -->
+            <div id="dashboard-stats-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Stat Cards generated dynamically via JS -->
+            </div>
+
+            <!-- Quick Action Links -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <button onclick="navigateTo('lessons')" class="p-5 bg-white rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition text-left group">
+                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-3 group-hover:bg-blue-600 group-hover:text-white transition">
+                        <i data-lucide="play-circle" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800">เข้าเรียนวิดีโอ</h3>
+                    <p class="text-xs text-slate-500 mt-1">ศึกษาคลิปสอน มัลแวร์ & ภัยคุกคาม</p>
+                </button>
+
+                <button onclick="navigateTo('quizzes')" class="p-5 bg-white rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition text-left group">
+                    <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-3 group-hover:bg-purple-600 group-hover:text-white transition">
+                        <i data-lucide="check-square" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800">ทำแบบทดสอบ</h3>
+                    <p class="text-xs text-slate-500 mt-1">วัดความเข้าใจหลังเรียน 4 ตัวเลือก</p>
+                </button>
+
+                <button onclick="navigateTo('assignments')" class="p-5 bg-white rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition text-left group">
+                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-3 group-hover:bg-amber-600 group-hover:text-white transition">
+                        <i data-lucide="upload-cloud" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800">ส่งงานออนไลน์</h3>
+                    <p class="text-xs text-slate-500 mt-1">ใบงาน “สถานการณ์จำลอง มองให้ชัด”</p>
+                </button>
+
+                <button onclick="navigateTo('game')" class="p-5 bg-white rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition text-left group">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 group-hover:bg-emerald-600 group-hover:text-white transition">
+                        <i data-lucide="trophy" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800">เล่นเกมพิชิตมัลแวร์</h3>
+                    <p class="text-xs text-slate-500 mt-1">สะสมคะแนนวิเคราะห์สถานการณ์</p>
+                </button>
+            </div>
+
+            <!-- Dashboard Detail Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Recent Activities / Course Overview -->
+                <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2">
+                            <i data-lucide="book-open-check" class="text-blue-600 w-5 h-5"></i>
+                            เนื้อหาการเรียนรู้ประจำหน่วย
+                        </h3>
+                        <span class="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 font-medium rounded-full">วิทยาการคำนวณ ม.1</span>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="border border-slate-100 rounded-xl p-4 bg-slate-50/50 hover:bg-slate-50 transition">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <span class="inline-block px-2 py-0.5 bg-blue-100 text-blue-800 text-xs font-semibold rounded mb-1">หน่วยที่ 6</span>
+                                    <h4 class="font-semibold text-slate-800">การวิเคราะห์ภัยคุกคาม มัลแวร์ และการป้องกันออนไลน์</h4>
+                                    <p class="text-xs text-slate-500 mt-1">เรียนรู้ประเภท Ransomware, Phishing, Adware, Virus และการสร้างรหัสผ่านที่ปลอดภัย</p>
+                                </div>
+                                <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800">กำลังเปิดเรียน</span>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between text-xs text-slate-600">
+                                <span>ผู้สอน: นายภูธเนศ วงษ์นา</span>
+                                <span>สัดส่วน: Online 40% / Onsite 60%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leaderboard / History Summary -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-lg mb-4 flex items-center gap-2">
+                            <i data-lucide="award" class="text-amber-500 w-5 h-5"></i>
+                            สรุปประวัติและคะแนน
+                        </h3>
+                        <div id="dashboard-summary-list" class="space-y-3">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 text-center">
+                        <p class="text-xs text-slate-400">ข้อมูลบันทึกตามเวลาจริงในระบบ Learning Hub</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 2: LESSONS ==================== -->
+        <section id="page-lessons" class="page-section hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">บทเรียนวิดีโอสื่อการสอน</h2>
+                    <p class="text-sm text-slate-500">ศึกษาคลิปวิดีโอ ทบทวนความรู้ก่อนทำแบบทดสอบและส่งงาน</p>
+                </div>
+                <!-- Teacher Button to Add Lesson -->
+                <div id="teacher-add-lesson-btn-container" class="hidden">
+                    <button onclick="openModal('add-lesson-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium shadow flex items-center gap-2 transition">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                        <span>เพิ่มบทเรียนวิดีโอใหม่</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lessons Grid & Active Video Player View -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Video Player Container (2 cols) -->
+                <div class="lg:col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 space-y-4">
+                    <div id="video-player-frame" class="w-full aspect-video bg-slate-900 rounded-xl overflow-hidden shadow-inner flex items-center justify-center relative">
+                        <!-- Dynamic Iframe Embed or Placeholder -->
+                    </div>
+
+                    <div id="active-lesson-info" class="space-y-3">
+                        <!-- Dynamic details of active lesson -->
+                    </div>
+                </div>
+
+                <!-- Lessons List Sidebar (1 col) -->
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 space-y-4">
+                    <h3 class="font-bold text-slate-800 text-base flex items-center gap-2 border-b border-slate-100 pb-3">
+                        <i data-lucide="list-video" class="text-blue-600 w-5 h-5"></i>
+                        <span>รายการบทเรียนทั้งหมด</span>
+                    </h3>
+                    <div id="lessons-list-container" class="space-y-2 max-h-[500px] overflow-y-auto custom-scrollbar pr-1">
+                        <!-- Dynamic lesson items -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 3: QUIZZES ==================== -->
+        <section id="page-quizzes" class="page-section hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">แบบทดสอบหลังเรียน</h2>
+                    <p class="text-sm text-slate-500">วัดความรู้ความเข้าใจ ตรวจผลคะแนนและเฉลยอัตโนมัติ (เกณฑ์ผ่าน 70%)</p>
+                </div>
+                <!-- Teacher Add Quiz Button -->
+                <div id="teacher-add-quiz-btn-container" class="hidden">
+                    <button onclick="openModal('add-quiz-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium shadow flex items-center gap-2 transition">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                        <span>เพิ่มข้อสอบใหม่</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Main Container -->
+            <div id="quiz-main-content" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80">
+                <!-- Populated via JS depending on state (Take quiz, Result review, Teacher management) -->
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 4: ASSIGNMENTS ==================== -->
+        <section id="page-assignments" class="page-section hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">ระบบส่งงานออนไลน์</h2>
+                    <p class="text-sm text-slate-500">การมอบหมายงาน ส่งใบงานไฟล์แนบ พร้อมระบบให้คะแนนจากครู</p>
+                </div>
+                <!-- Teacher Add Assignment Button -->
+                <div id="teacher-add-assignment-btn-container" class="hidden">
+                    <button onclick="openModal('add-assignment-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium shadow flex items-center gap-2 transition">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                        <span>สั่งงานใหม่</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Assignments Container -->
+            <div id="assignments-content" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Assignments List (1 col) -->
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 space-y-4">
+                    <h3 class="font-bold text-slate-800 text-base border-b border-slate-100 pb-3 flex items-center gap-2">
+                        <i data-lucide="file-text" class="text-blue-600 w-5 h-5"></i>
+                        <span>ภาระงานที่ได้รับมอบหมาย</span>
+                    </h3>
+                    <div id="assignment-list" class="space-y-3">
+                        <!-- Dynamic assignments -->
+                    </div>
+                </div>
+
+                <!-- Assignment Detail & Submission / Grading View (2 cols) -->
+                <div id="assignment-detail-card" class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 5: GAME ==================== -->
+        <section id="page-game" class="page-section hidden space-y-6">
+            <div class="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 rounded-3xl p-6 md:p-8 text-white shadow-xl min-h-[500px] flex flex-col justify-between relative overflow-hidden">
+                <!-- Background decorative elements -->
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-10 -top-10 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <!-- Game Container switched via JS states -->
+                <div id="game-container" class="relative z-10 max-w-2xl mx-auto w-full text-center space-y-6 my-auto">
+                    <!-- Dynamic Game View (Start, Question, Summary) -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 mt-auto text-xs">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p>Learning Hub — ระบบจัดการเรียนรู้ออนไลน์ วิชา วิทยาการคำนวณ ม.1</p>
+            <p class="text-slate-500">โรงเรียนคุณภาพดิจิทัล • ครูผู้สอน: นายภูธเนศ วงษ์นา</p>
+        </div>
+    </footer>
+
+    <!-- ==================== MODALS ==================== -->
+
+    <!-- Modal 1: Add Lesson (Teacher) -->
+    <div id="add-lesson-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-slate-800 text-lg">เพิ่มบทเรียนวิดีโอสื่อการสอน</h3>
+                <button onclick="closeModal('add-lesson-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <form id="add-lesson-form" onsubmit="handleSaveLesson(event)" class="space-y-4 text-sm">
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">ชื่อบทเรียน</label>
+                    <input type="text" id="lesson-title-input" required class="w-full px-3 py-2 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="เช่น การวิเคราะห์ภัยคุกคาม มัลแวร์">
+                </div>
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">ลิงก์วิดีโอ YouTube</label>
+                    <input type="url" id="lesson-url-input" required class="w-full px-3 py-2 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">คำอธิบาย/เนื้อหาสำคัญ</label>
+                    <textarea id="lesson-desc-input" rows="3" required class="w-full px-3 py-2 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="อธิบายจุดประสงค์และเรื่องสำคัญในคลิป..."></textarea>
+                </div>
+                <div class="flex justify-end space-x-2 pt-2">
+                    <button type="button" onclick="closeModal('add-lesson-modal')" class="px-4 py-2 border rounded-xl text-slate-600 hover:bg-slate-50">ยกเลิก</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">บันทึกบทเรียน</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 2: Add Quiz Question (Teacher) -->
+    <div id="add-quiz-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-slate-800 text-lg">เพิ่มข้อสอบปรนัยใหม่</h3>
+                <button onclick="closeModal('add-quiz-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <form id="add-quiz-form" onsubmit="handleSaveQuiz(event)" class="space-y-3 text-sm">
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">โจทย์คำถาม</label>
+                    <input type="text" id="quiz-question-input" required class="w-full px-3 py-2 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="ระบุคำถาม...">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">ตัวเลือก ก</label>
+                        <input type="text" id="quiz-opt-0" required class="w-full px-2.5 py-1.5 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">ตัวเลือก ข</label>
+                        <input type="text" id="quiz-opt-1" required class="w-full px-2.5 py-1.5 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">ตัวเลือก ค</label>
+                        <input type="text" id="quiz-opt-2" required class="w-full px-2.5 py-1.5 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">ตัวเลือก ง</label>
+                        <input type="text" id="quiz-opt-3" required class="w-full px-2.5 py-1.5 border rounded-lg">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">คำตอบที่ถูกต้อง</label>
+                    <select id="quiz-correct-input" class="w-full px-3 py-2 border rounded-xl outline-none">
+                        <option value="0">ตัวเลือก ก</option>
+                        <option value="1">ตัวเลือก ข</option>
+                        <option value="2">ตัวเลือก ค</option>
+                        <option value="3">ตัวเลือก ง</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">คำอธิบายเฉลยเพิ่มเติม</label>
+                    <input type="text" id="quiz-explanation-input" required class="w-full px-3 py-2 border rounded-xl" placeholder="อธิบายเหตุผลของคำตอบ...">
+                </div>
+                <div class="flex justify-end space-x-2 pt-2">
+                    <button type="button" onclick="closeModal('add-quiz-modal')" class="px-4 py-2 border rounded-xl text-slate-600 hover:bg-slate-50">ยกเลิก</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">เพิ่มข้อสอบ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 3: Add Assignment (Teacher) -->
+    <div id="add-assignment-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-slate-800 text-lg">สร้างภาระงาน / มอบหมายงาน</h3>
+                <button onclick="closeModal('add-assignment-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <form id="add-assignment-form" onsubmit="handleSaveAssignment(event)" class="space-y-4 text-sm">
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">ชื่อภาระงาน</label>
+                    <input type="text" id="assign-title-input" required class="w-full px-3 py-2 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="เช่น ใบงานเรื่อง สถานการณ์จำลอง มองให้ชัด">
+                </div>
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">รายละเอียดคำสั่งงาน</label>
+                    <textarea id="assign-desc-input" rows="3" required class="w-full px-3 py-2 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="คำชี้แจงในการทำใบงาน..."></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-medium text-slate-700 mb-1">คะแนนเต็ม</label>
+                        <input type="number" id="assign-score-input" value="10" required class="w-full px-3 py-2 border rounded-xl">
+                    </div>
+                    <div>
+                        <label class="block font-medium text-slate-700 mb-1">กำหนดส่ง (DueDate)</label>
+                        <input type="date" id="assign-due-input" required class="w-full px-3 py-2 border rounded-xl">
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-2 pt-2">
+                    <button type="button" onclick="closeModal('add-assignment-modal')" class="px-4 py-2 border rounded-xl text-slate-600 hover:bg-slate-50">ยกเลิก</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">สร้างงาน</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast Element -->
+    <div id="toast-notification" class="fixed bottom-5 right-5 bg-slate-800 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center space-x-3 transition-all duration-300 transform translate-y-20 opacity-0 z-50 pointer-events-none">
+        <i id="toast-icon" data-lucide="info" class="w-5 h-5 text-blue-400"></i>
+        <span id="toast-msg" class="text-sm font-medium">ข้อความแจ้งเตือน</span>
+    </div>
+
+    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+    <script>
+        // Default Core Data Store initialized with data from teacher's lesson plan PDF
+        const DEFAULT_DATA = {
+            role: 'student', // 'student' or 'teacher'
+            studentName: 'สมชาย สายเรียน (ม.1/1)',
+            teacherName: 'นายภูธเนศ วงษ์นา',
+            
+            // Lessons Store
+            lessons: [
+                {
+                    id: 'les-1',
+                    title: 'บทเรียนที่ 1: การวิเคราะห์ภัยคุกคาม มัลแวร์ และการป้องกันออนไลน์',
+                    url: 'https://www.youtube.com/watch?v=c1LihplaFJE',
+                    embedId: 'c1LihplaFJE',
+                    description: 'ศึกษาประเภทมัลแวร์ เช่น แรนซัมแวร์ (Ransomware), ฟิชชิง (Phishing), แอดแวร์ (Adware), สปายแวร์ และแนวทางการป้องกันตนเองเบื้องต้นตามแผนการเรียนรู้ ม.1',
+                    status: 'completed', // 'not_started', 'in_progress', 'completed'
+                    takeaways: [
+                        'รู้จักพฤติกรรมมัลแวร์เรียกค่าไถ่ (Ransomware)',
+                        'แยกแยะอีเมลหลอกลวงหรือฟิชชิง (Phishing)',
+                        'สังเกตอาการเครื่องที่ติดแอดแวร์ (Adware)'
+                    ]
+                },
+                {
+                    id: 'les-2',
+                    title: 'บทเรียนที่ 2: การตั้งรหัสผ่านและการใช้งานอินเทอร์เน็ตอย่างปลอดภัย',
+                    url: 'https://www.youtube.com/watch?v=3JZ_D3ELwOQ',
+                    embedId: '3JZ_D3ELwOQ',
+                    description: 'เรียนรู้เทคนิคการตั้งรหัสผ่านที่รัดกุม การยืนยันตัวตนสองชั้น และการตรวจสอบเว็บไซต์ปลอมก่อนกรอกข้อมูลส่วนตัว',
+                    status: 'in_progress',
+                    takeaways: [
+                        'หลีกเลี่ยงการใช้ วันเดือนปีเกิด เป็นรหัสผ่าน',
+                        'ผสมผสานตัวอักษรพิมพ์ใหญ่ พิมพ์เล็ก ตัวเลข และสัญลักษณ์',
+                        'ไม่เปิดเผยรหัสผ่านกับเพื่อนหรือบุคคลอื่น'
+                    ]
+                }
+            ],
+
+            // Quizzes Store (Based on PDF test questions & curriculum)
+            quizzes: [
+                {
+                    id: 'q-1',
+                    question: 'แรนซัมแวร์ (Ransomware) หรือมัลแวร์เรียกค่าไถ่ มีพฤติกรรมอย่างไรที่สังเกตได้ชัดที่สุด?',
+                    options: [
+                        'ขโมยรหัสผ่านโซเชียลมีเดีย',
+                        'ล็อกไฟล์ข้อมูลทั้งหมดแล้วขู่ให้โอนเงินเพื่อปลดล็อก',
+                        'แสดงโฆษณาเด้งป๊อปอัปตลอดเวลา',
+                        'ทำให้คีย์บอร์ดพิมพ์ไม่ได้'
+                    ],
+                    correctIndex: 1,
+                    explanation: 'เฉลย: แรนซัมแวร์จะเข้ารหัสล็อกไฟล์ข้อมูลทั้งหมด แล้วขู่ให้โอนเงินแลกกับรหัสปลดล็อก'
+                },
+                {
+                    id: 'q-2',
+                    question: 'หากนักเรียนได้รับอีเมลแจ้งว่า "คุณคือผู้โชคดีได้รับไอโฟนฟรี กรุณากดลิงก์นี้เพื่อกรอกข้อมูลส่วนตัว" จัดเป็นภัยคุกคามประเภทใด?',
+                    options: [
+                        'มัลแวร์สายพันธุ์ใหม่',
+                        'การโจมตีไวรัส',
+                        'ฟิชชิง (Phishing หรือ การหลอกลวงออนไลน์)',
+                        'แอดแวร์ (Adware)'
+                    ],
+                    correctIndex: 2,
+                    explanation: 'เฉลย: เป็นการฟิชชิง (Phishing) ที่สร้างข้อความหลอกลวงเพื่อหลอกให้ผู้ใช้กรอกข้อมูลสำคัญ'
+                },
+                {
+                    id: 'q-3',
+                    question: 'ถ้าคอมพิวเตอร์ของนักเรียนติด "แอดแวร์" (Adware) จะเกิดอาการใดขึ้นกับเครื่อง?',
+                    options: [
+                        'มีป๊อปอัปโฆษณาเด้งขึ้นมาก่อกวนตลอดเวลา',
+                        'หน้าจอเป็นสีฟ้าดับทันที',
+                        'ไฟล์เอกสารหายทั้งหมด',
+                        'พัดลมระบายความร้อนหมุนเร็วขึ้น'
+                    ],
+                    correctIndex: 0,
+                    explanation: 'เฉลย: แอดแวร์ (Adware) จะแสดงโฆษณาป๊อปอัปขึ้นมารบกวนการใช้งานอย่างต่อเนื่อง'
+                },
+                {
+                    id: 'q-4',
+                    question: 'พฤติกรรมใดต่อไปนี้ถือเป็นการป้องกันภัยคุกคามออนไลน์ที่ไม่ถูกต้อง?',
+                    options: [
+                        'ติดตั้งโปรแกรมจากแหล่งที่น่าเชื่อถือ',
+                        'สำรองข้อมูลสำคัญอย่างสม่ำเสมอ',
+                        'คลิกลิงก์แปลกปลอมที่ส่งมาจากคนไม่รู้จักเพื่อเช็คข้อมูล',
+                        'ตั้งรหัสผ่านที่คาดเดายาก'
+                    ],
+                    correctIndex: 2,
+                    explanation: 'เฉลย: การคลิกลิงก์แปลกปลอมมีความเสี่ยงสูงที่จะนำไปสู่การถูกติดตั้งมัลแวร์หรือฟิชชิง'
+                }
+            ],
+
+            // Student Quiz History
+            quizHistory: {
+                lastScore: 4,
+                totalQuestions: 4,
+                passed: true,
+                date: '11 ต.ค. 2569'
+            },
+
+            // Assignments Store
+            assignments: [
+                {
+                    id: 'assign-1',
+                    title: 'ใบงานเรื่อง "สถานการณ์จำลอง มองให้ชัด"',
+                    description: 'ให้นักเรียนวิเคราะห์และตอบคำถามท้ายบทเรียนเกี่ยวกับ Ransomware, Phishing และ Adware พร้อมอธิบายวิธีป้องกันตนเอง',
+                    maxScore: 10,
+                    dueDate: '2026-10-18',
+                    submission: {
+                        submitted: true,
+                        fileName: 'ใบงาน_สถานการณ์จำลอง_สมชาย.pdf',
+                        fileType: 'application/pdf',
+                        fileSize: '1.2 MB',
+                        submittedAt: '11 ต.ค. 2569, 14:30 น.',
+                        studentNote: 'ทำใบงานครบทั้ง 3 ข้อหลักตามที่ครูอธิบายในคลิปเรียบร้อยครับ',
+                        status: 'graded', // 'submitted', 'graded', 'late'
+                        score: 9,
+                        feedback: 'ตอบคำถามจำแนกประเภทมัลแวร์ได้ถูกต้อง ชัดเจนดีมากครับ!'
+                    }
+                }
+            ],
+
+            // Game Questions Pool (Cyber Detective Challenge)
+            gameQuestions: [
+                {
+                    caseNo: 'คดีที่ 1',
+                    story: 'คอมพิวเตอร์ของบี ถูกล็อกไฟล์ทั้งหมด แล้วมีข้อความขึ้นเตือนให้โอนเงินเพื่อปลดล็อกข้อมูล',
+                    options: ['Ransomware', 'Adware', 'Spyware', 'Phishing'],
+                    correct: 0,
+                    prevention: 'วิธีป้องกัน: สำรองข้อมูลสม่ำเสมอ ไม่เปิดไฟล์แนบแปลกปลอม'
+                },
+                {
+                    caseNo: 'คดีที่ 2',
+                    story: 'เอ ได้รับอีเมลหน้าตาเหมือนเว็บธนาคาร ให้กรอกชื่อผู้ใช้และรหัสผ่านเพื่อยืนยันตัวตน',
+                    options: ['Virus', 'Phishing', 'Trojan', 'Worm'],
+                    correct: 1,
+                    prevention: 'วิธีป้องกัน: ตรวจสอบ URL และชื่อผู้ส่ง ไม่กรอกรหัสผ่านผ่านลิงก์ในอีเมล'
+                },
+                {
+                    caseNo: 'คดีที่ 3',
+                    story: 'ซี โหลดเกมฟรีมาเล่น แต่หลังจากนั้นมีโฆษณาเด้งขึ้นมาก่อกวนตลอดเวลา และคอมพิวเตอร์ช้าลง',
+                    options: ['Ransomware', 'Keylogger', 'Adware', 'Phishing'],
+                    correct: 2,
+                    prevention: 'วิธีป้องกัน: ดาวน์โหลดโปรแกรมและเกมจากแหล่งที่น่าเชื่อถือเท่านั้น'
+                }
+            ],
+
+            // Game High Score
+            gameHighScore: 300
+        };
+
+        // Current App State initialized from LocalStorage or Default
+        let state = JSON.parse(localStorage.getItem('learning_hub_state')) || DEFAULT_DATA;
+
+        // Save State Helper
+        function saveState() {
+            localStorage.setItem('learning_hub_state', JSON.stringify(state));
+            updateUI();
+        }
+
+        // Active View Trackers
+        let currentTab = 'dashboard';
+        let activeLessonId = state.lessons[0]?.id || '';
+        let activeAssignmentId = state.assignments[0]?.id || '';
+
+        // Quiz Taking Temporary State
+        let quizAnswers = {};
+
+        // Game Play Temporary State
+        let gameActive = false;
+        let gameCurrentIndex = 0;
+        let gameScore = 0;
+        let gameTimer = null;
+        let gameTimeLeft = 15;
+
+        // Initialize App on DOM Loaded
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            updateUI();
+            navigateTo('dashboard');
+        });
+
+        // Role Switcher Function
+        function switchRole(role) {
+            state.role = role;
+            saveState();
+            showToast(`สลับไปยัง ${role === 'teacher' ? 'มุมมองครู (นายภูธเนศ)' : 'มุมมองนักเรียน (สมชาย)'}`);
+        }
+
+        // Navigation Function
+        function navigateTo(tabId) {
+            currentTab = tabId;
+            document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`page-${tabId}`)?.classList.remove('hidden');
+
+            // Update Navigation Buttons Style
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-600', 'shadow-sm');
+                btn.classList.add('text-blue-100');
+            });
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-brand-600', 'shadow-sm');
+                activeBtn.classList.remove('text-blue-100');
+            }
+
+            // Trigger Specific Page Redraw
+            if (tabId === 'lessons') renderLessonsPage();
+            if (tabId === 'quizzes') renderQuizzesPage();
+            if (tabId === 'assignments') renderAssignmentsPage();
+            if (tabId === 'game' && !gameActive) renderGameStartScreen();
+            if (tabId === 'dashboard') renderDashboardPage();
+        }
+
+        // Main UI Update Pipeline
+        function updateUI() {
+            // Update Role Toggle Buttons
+            const studentBtn = document.getElementById('role-student-btn');
+            const teacherBtn = document.getElementById('role-teacher-btn');
+            if (state.role === 'student') {
+                studentBtn.className = "flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 bg-white text-brand-900 shadow";
+                teacherBtn.className = "flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 text-blue-200 hover:text-white";
+                document.getElementById('user-greeting').innerText = `สวัสดี, ${state.studentName}`;
+            } else {
+                teacherBtn.className = "flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 bg-amber-400 text-slate-900 font-semibold shadow";
+                studentBtn.className = "flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 text-blue-200 hover:text-white";
+                document.getElementById('user-greeting').innerText = `สวัสดี, คุณครู ${state.teacherName}`;
+            }
+
+            // Show/Hide Teacher Action Controls
+            const teacherControls = ['teacher-add-lesson-btn-container', 'teacher-add-quiz-btn-container', 'teacher-add-assignment-btn-container'];
+            teacherControls.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (state.role === 'teacher') el.classList.remove('hidden');
+                    else el.classList.add('hidden');
+                }
+            });
+
+            // Calculate Overall Progress
+            const completedCount = state.lessons.filter(l => l.status === 'completed').length;
+            const lessonProgress = state.lessons.length ? (completedCount / state.lessons.length) * 50 : 0;
+            const quizProgress = state.quizHistory?.passed ? 50 : 0;
+            const totalProgress = Math.round(lessonProgress + quizProgress);
+
+            document.getElementById('overall-progress-text').innerText = `${totalProgress}%`;
+            document.getElementById('overall-progress-bar').style.width = `${totalProgress}%`;
+
+            // Refresh Active Page
+            if (currentTab === 'dashboard') renderDashboardPage();
+            if (currentTab === 'lessons') renderLessonsPage();
+            if (currentTab === 'quizzes') renderQuizzesPage();
+            if (currentTab === 'assignments') renderAssignmentsPage();
+
+            lucide.createIcons();
+        }
+
+        function renderDashboardPage() {
+            const statsContainer = document.getElementById('dashboard-stats-grid');
+            if (!statsContainer) return;
+
+            if (state.role === 'student') {
+                const completedLessons = state.lessons.filter(l => l.status === 'completed').length;
+                const pendingAssigns = state.assignments.filter(a => !a.submission.submitted).length;
+
+                statsContainer.innerHTML = `
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-slate-500">บทเรียนที่จบแล้ว</p>
+                            <p class="text-2xl font-bold text-slate-800 mt-1">${completedLessons} / ${state.lessons.length}</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                            <i data-lucide="book-check" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-slate-500">คะแนนแบบทดสอบ</p>
+                            <p class="text-2xl font-bold text-slate-800 mt-1">${state.quizHistory?.lastScore ?? 0} / ${state.quizzes.length}</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                            <i data-lucide="award" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-slate-500">งานที่รอดำเนินการ</p>
+                            <p class="text-2xl font-bold ${pendingAssigns > 0 ? 'text-amber-600' : 'text-slate-800'} mt-1">${pendingAssigns} งาน</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                            <i data-lucide="clock" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-slate-500">คะแนนสูงสุดเกม</p>
+                            <p class="text-2xl font-bold text-purple-600 mt-1">${state.gameHighScore} pts</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                            <i data-lucide="gamepad" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Teacher Dashboard Stats
+                const totalStudents = 32;
+                const submittedCount = state.assignments.filter(a => a.submission.submitted).length;
+                
+                statsContainer.innerHTML = `
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-slate-500">จำนวนนักเรียนทั้งหมด</p>
+                            <p class="text-2xl font-bold text-slate-800 mt-1">${totalStudents} คน</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                            <i data-lucide="users" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-slate-500">การส่งงานรอตรวจ</p>
+                            <p class="text-2xl font-bold text-amber-600 mt-1">${submittedCount} งาน</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                            <i data-lucide="file-text" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-slate-500">คะแนนเฉลี่ยแบบทดสอบ</p>
+                            <p class="text-2xl font-bold text-emerald-600 mt-1">85%</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                            <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-slate-500">บทเรียนในระบบ</p>
+                            <p class="text-2xl font-bold text-purple-600 mt-1">${state.lessons.length} คลิป</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                            <i data-lucide="video" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Summary history list
+            const summaryContainer = document.getElementById('dashboard-summary-list');
+            if (summaryContainer) {
+                summaryContainer.innerHTML = `
+                    <div class="flex items-center justify-between text-xs p-3 bg-slate-50 rounded-xl">
+                        <span class="text-slate-600">แบบทดสอบล่าสุด</span>
+                        <span class="font-semibold text-emerald-600">${state.quizHistory?.lastScore}/${state.quizzes.length} (ผ่านเกณฑ์)</span>
+                    </div>
+                    <div class="flex items-center justify-between text-xs p-3 bg-slate-50 rounded-xl">
+                        <span class="text-slate-600">สถานะใบงานมองให้ชัด</span>
+                        <span class="font-semibold text-blue-600">${state.assignments[0]?.submission.submitted ? 'ตรวจแล้ว (9/10)' : 'ยังไม่ส่ง'}</span>
+                    </div>
+                    <div class="flex items-center justify-between text-xs p-3 bg-slate-50 rounded-xl">
+                        <span class="text-slate-600">สถิติเกม Cyber Detective</span>
+                        <span class="font-semibold text-purple-600">${state.gameHighScore} คะแนน</span>
+                    </div>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        function renderLessonsPage() {
+            const listContainer = document.getElementById('lessons-list-container');
+            const playerFrame = document.getElementById('video-player-frame');
+            const infoContainer = document.getElementById('active-lesson-info');
+            if (!listContainer || !playerFrame) return;
+
+            const activeLesson = state.lessons.find(l => l.id === activeLessonId) || state.lessons[0];
+            activeLessonId = activeLesson.id;
+
+            // Render Lessons Sidebar Items
+            listContainer.innerHTML = state.lessons.map(lesson => {
+                const isActive = lesson.id === activeLesson.id;
+                let statusBadge = '<span class="text-xs text-slate-400">ยังไม่เรียน</span>';
+                if (lesson.status === 'completed') statusBadge = '<span class="text-xs text-emerald-600 font-medium">เรียนแล้ว</span>';
+                if (lesson.status === 'in_progress') statusBadge = '<span class="text-xs text-amber-600 font-medium">กำลังเรียน</span>';
+
+                return `
+                    <div onclick="selectLesson('${lesson.id}')" class="p-3 rounded-xl border cursor-pointer transition ${isActive ? 'bg-blue-50 border-blue-400 shadow-sm' : 'border-slate-100 hover:bg-slate-50'}">
+                        <div class="flex items-start justify-between">
+                            <h4 class="font-medium text-xs text-slate-800 line-clamp-2">${lesson.title}</h4>
+                            ${state.role === 'teacher' ? `<button onclick="deleteLesson(event, '${lesson.id}')" class="text-red-400 hover:text-red-600 ml-1"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>` : ''}
+                        </div>
+                        <div class="mt-2 flex items-center justify-between">
+                            ${statusBadge}
+                            <span class="text-[10px] text-blue-600 flex items-center gap-1"><i data-lucide="play" class="w-3 h-3"></i> รับชม</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Render Embedded Youtube Player
+            playerFrame.innerHTML = `
+                <iframe class="w-full h-full rounded-xl" 
+                    src="https://www.youtube-nocookie.com/embed/${activeLesson.embedId}?autoplay=0&rel=0" 
+                    title="${activeLesson.title}" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            `;
+
+            // Render Lesson Info & Actions
+            infoContainer.innerHTML = `
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-lg">${activeLesson.title}</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">สถานะการเรียน: ${activeLesson.status === 'completed' ? '✅ เรียนเรียบร้อยแล้ว' : '⏳ อยู่ระหว่างศึกษา'}</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="markLessonComplete('${activeLesson.id}')" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-medium shadow flex items-center gap-1 transition">
+                            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                            <span>ยืนยันเรียนจบแล้ว</span>
+                        </button>
+                        <button onclick="navigateTo('quizzes')" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-medium shadow flex items-center gap-1 transition">
+                            <span>ทำแบบทดสอบ</span>
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-slate-700 text-sm mb-1">คำอธิบายบทเรียน</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">${activeLesson.description}</p>
+                </div>
+                ${activeLesson.takeaways ? `
+                    <div class="bg-blue-50/70 p-3 rounded-xl border border-blue-100 space-y-1">
+                        <h5 class="text-xs font-bold text-blue-900">สาระสำคัญที่ต้องจำ:</h5>
+                        <ul class="list-disc list-inside text-xs text-blue-800 space-y-0.5">
+                            ${activeLesson.takeaways.map(t => `<li>${t}</li>`).join('')}
+                        </ul>
+                    </div>
+                ` : ''}
+            `;
+            lucide.createIcons();
+        }
+
+        function selectLesson(id) {
+            activeLessonId = id;
+            renderLessonsPage();
+        }
+
+        function markLessonComplete(id) {
+            const lesson = state.lessons.find(l => l.id === id);
+            if (lesson) {
+                lesson.status = 'completed';
+                saveState();
+                showToast('บันทึกสถานะ "เรียนจบแล้ว" เรียบร้อย');
+            }
+        }
+
+        function renderQuizzesPage() {
+            const container = document.getElementById('quiz-main-content');
+            if (!container) return;
+
+            if (state.role === 'teacher') {
+                // Teacher Management View for Quizzes
+                container.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center border-b pb-3">
+                            <h3 class="font-bold text-slate-800 text-lg">คลังแบบทดสอบทั้งหมด (${state.quizzes.length} ข้อ)</h3>
+                            <span class="text-xs text-slate-500">เกณฑ์การผ่าน: 70% ขึ้นไป</span>
+                        </div>
+                        <div class="space-y-3">
+                            ${state.quizzes.map((q, idx) => `
+                                <div class="p-4 rounded-xl border border-slate-100 bg-slate-50/50 space-y-2">
+                                    <div class="flex justify-between items-start">
+                                        <p class="font-semibold text-sm text-slate-800">${idx + 1}. ${q.question}</p>
+                                        <button onclick="deleteQuiz('${q.id}')" class="text-red-400 hover:text-red-600 text-xs flex items-center gap-1">
+                                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> ลบ
+                                        </button>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-2 text-xs text-slate-600">
+                                        ${q.options.map((opt, oIdx) => `
+                                            <div class="p-2 rounded-lg ${oIdx === q.correctIndex ? 'bg-emerald-100 text-emerald-900 font-medium border border-emerald-300' : 'bg-white border border-slate-200'}">
+                                                ${['ก', 'ข', 'ค', 'ง'][oIdx]}. ${opt} ${oIdx === q.correctIndex ? '✓' : ''}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                    <p class="text-xs text-slate-500 italic mt-1">${q.explanation}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Student View - Take Quiz form or Result Review
+                container.innerHTML = `
+                    <form id="quiz-form" onsubmit="handleQuizSubmit(event)" class="space-y-6">
+                        <div class="border-b border-slate-100 pb-3 flex justify-between items-center">
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-lg">แบบทดสอบวัดความรู้เรื่อง มัลแวร์ & ภัยคุกคาม</h3>
+                                <p class="text-xs text-slate-500">ตอบคำถาม 4 ตัวเลือก ตรวจผลและเฉลยทันทีหลังส่ง</p>
+                            </div>
+                            <span class="text-xs px-3 py-1 bg-blue-100 text-blue-800 font-semibold rounded-full">4 ข้อ</span>
+                        </div>
+
+                        <div class="space-y-6">
+                            ${state.quizzes.map((q, qIdx) => `
+                                <div class="p-4 rounded-2xl border border-slate-200 bg-white space-y-3">
+                                    <h4 class="font-medium text-slate-800 text-sm">${qIdx + 1}. ${q.question}</h4>
+                                    <div class="space-y-2">
+                                        ${q.options.map((opt, oIdx) => `
+                                            <label class="flex items-center space-x-3 p-3 rounded-xl border border-slate-100 hover:bg-blue-50/50 cursor-pointer transition">
+                                                <input type="radio" name="quiz_${q.id}" value="${oIdx}" required class="text-blue-600 focus:ring-blue-500">
+                                                <span class="text-xs text-slate-700">${['ก', 'ข', 'ค', 'ง'][oIdx]}. ${opt}</span>
+                                            </label>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-100 flex justify-end">
+                            <button type="submit" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold shadow-lg transition flex items-center space-x-2">
+                                <i data-lucide="send" class="w-4 h-4"></i>
+                                <span>ส่งคำตอบแบบทดสอบ</span>
+                            </button>
+                        </div>
+                    </form>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        function handleQuizSubmit(e) {
+            e.preventDefault();
+            let score = 0;
+            const answers = [];
+
+            state.quizzes.forEach(q => {
+                const selected = document.querySelector(`input[name="quiz_${q.id}"]:checked`)?.value;
+                const isCorrect = parseInt(selected) === q.correctIndex;
+                if (isCorrect) score++;
+                answers.push({
+                    question: q.question,
+                    selected: selected !== undefined ? parseInt(selected) : -1,
+                    correctIndex: q.correctIndex,
+                    isCorrect: isCorrect,
+                    explanation: q.explanation,
+                    options: q.options
+                });
+            });
+
+            const total = state.quizzes.length;
+            const percentage = Math.round((score / total) * 100);
+            const passed = percentage >= 70;
+
+            state.quizHistory = {
+                lastScore: score,
+                totalQuestions: total,
+                passed: passed,
+                date: new Date().toLocaleDateString('th-TH')
+            };
+            saveState();
+
+            // Render Detailed Score Summary View
+            const container = document.getElementById('quiz-main-content');
+            container.innerHTML = `
+                <div class="space-y-6">
+                    <div class="p-6 rounded-2xl ${passed ? 'bg-emerald-50 border border-emerald-200' : 'bg-rose-50 border border-rose-200'} text-center space-y-2">
+                        <div class="w-16 h-16 mx-auto rounded-full ${passed ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'} flex items-center justify-center text-2xl font-bold">
+                            ${passed ? '✓' : '✗'}
+                        </div>
+                        <h3 class="text-xl font-bold ${passed ? 'text-emerald-900' : 'text-rose-900'}">
+                            ${passed ? 'ยินดีด้วย! คุณสอบผ่านเกณฑ์' : 'ยังไม่ผ่านเกณฑ์การประเมิน'}
+                        </h3>
+                        <p class="text-3xl font-extrabold ${passed ? 'text-emerald-600' : 'text-rose-600'}">${score} / ${total} คะแนน (${percentage}%)</p>
+                        <p class="text-xs ${passed ? 'text-emerald-700' : 'text-rose-700'}">เกณฑ์การผ่าน: 70% ขึ้นไปตามแผนการจัดการเรียนรู้</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-slate-800 text-base">เฉลยและคำอธิบายอย่างละเอียด</h4>
+                        ${answers.map((ans, idx) => `
+                            <div class="p-4 rounded-xl border ${ans.isCorrect ? 'border-emerald-200 bg-emerald-50/30' : 'border-rose-200 bg-rose-50/30'} space-y-2">
+                                <p class="font-semibold text-xs text-slate-800">${idx + 1}. ${ans.question}</p>
+                                <div class="text-xs space-y-1">
+                                    <p class="${ans.isCorrect ? 'text-emerald-700' : 'text-rose-700'}">
+                                        ตอบ: ${ans.selected >= 0 ? ans.options[ans.selected] : 'ไม่ได้ตอบ'} ${ans.isCorrect ? '✓ ถูกต้อง' : '✗ ไม่ถูกต้อง'}
+                                    </p>
+                                    ${!ans.isCorrect ? `<p class="text-slate-700 font-medium">คำตอบที่ถูกคือ: ${ans.options[ans.correctIndex]}</p>` : ''}
+                                </div>
+                                <p class="text-xs text-slate-600 italic bg-white p-2 rounded border border-slate-100">${ans.explanation}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="flex justify-end space-x-3 pt-3">
+                        <button onclick="renderQuizzesPage()" class="px-5 py-2 bg-slate-800 text-white rounded-xl text-xs font-medium hover:bg-slate-700 transition">
+                            ทำแบบทดสอบอีกครั้ง
+                        </button>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function renderAssignmentsPage() {
+            const listContainer = document.getElementById('assignment-list');
+            const detailContainer = document.getElementById('assignment-detail-card');
+            if (!listContainer || !detailContainer) return;
+
+            const activeAssign = state.assignments.find(a => a.id === activeAssignmentId) || state.assignments[0];
+            activeAssignmentId = activeAssign?.id;
+
+            // Assignment List Sidebar
+            listContainer.innerHTML = state.assignments.map(a => {
+                const isActive = a.id === activeAssign?.id;
+                const isSubmitted = a.submission.submitted;
+                return `
+                    <div onclick="selectAssignment('${a.id}')" class="p-3.5 rounded-xl border cursor-pointer transition ${isActive ? 'bg-blue-50 border-blue-400 shadow-sm' : 'border-slate-100 hover:bg-slate-50'}">
+                        <div class="flex items-start justify-between">
+                            <h4 class="font-medium text-xs text-slate-800">${a.title}</h4>
+                            ${state.role === 'teacher' ? `<button onclick="deleteAssignment(event, '${a.id}')" class="text-red-400 hover:text-red-600 ml-1"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>` : ''}
+                        </div>
+                        <div class="mt-2 flex items-center justify-between text-[11px]">
+                            <span class="${isSubmitted ? 'text-emerald-600 font-medium' : 'text-amber-600'}">
+                                ${isSubmitted ? (a.submission.status === 'graded' ? '✅ ตรวจแล้ว' : '📤 ส่งแล้ว') : '⏳ ยังไม่ส่ง'}
+                            </span>
+                            <span class="text-slate-400">กำหนด: ${a.dueDate}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            if (!activeAssign) {
+                detailContainer.innerHTML = `<p class="text-slate-400 text-center py-10">ยังไม่มีงานที่มอบหมาย</p>`;
+                return;
+            }
+
+            // Detail Card View
+            const sub = activeAssign.submission;
+            detailContainer.innerHTML = `
+                <div class="space-y-6">
+                    <div class="border-b border-slate-100 pb-4 flex justify-between items-start">
+                        <div>
+                            <span class="px-2.5 py-0.5 bg-blue-100 text-blue-800 text-xs font-semibold rounded-md">คะแนนเต็ม ${activeAssign.maxScore} คะแนน</span>
+                            <h3 class="text-xl font-bold text-slate-800 mt-2">${activeAssign.title}</h3>
+                            <p class="text-xs text-slate-500 mt-1">กำหนดส่งวันที่: ${activeAssign.dueDate}</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-slate-700 text-sm mb-1">คำชี้แจงการส่งงาน</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">${activeAssign.description}</p>
+                    </div>
+
+                    <!-- Submission Section based on Role -->
+                    ${state.role === 'student' ? `
+                        <div class="border-t border-slate-100 pt-4 space-y-4">
+                            <h4 class="font-bold text-slate-800 text-sm">การส่งงานของนักเรียน</h4>
+                            ${sub.submitted ? `
+                                <div class="bg-emerald-50/60 border border-emerald-200 p-4 rounded-xl space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-2 text-emerald-800 font-semibold text-xs">
+                                            <i data-lucide="file-check" class="w-4 h-4 text-emerald-600"></i>
+                                            <span>ส่งไฟล์งานเรียบร้อยแล้ว (${sub.submittedAt})</span>
+                                        </div>
+                                        <span class="text-xs font-bold px-2 py-0.5 bg-emerald-200 text-emerald-900 rounded">
+                                            ${sub.status === 'graded' ? `คะแนน: ${sub.score} / ${activeAssign.maxScore}` : 'รอครูตรวจ'}
+                                        </span>
+                                    </div>
+                                    <div class="text-xs text-slate-700 space-y-1 bg-white p-3 rounded-lg border border-emerald-100">
+                                        <p><span class="font-semibold">ชื่อไฟล์:</span> ${sub.fileName} (${sub.fileSize})</p>
+                                        ${sub.studentNote ? `<p><span class="font-semibold">บันทึกเพิ่มเติม:</span> ${sub.studentNote}</p>` : ''}
+                                    </div>
+                                    ${sub.feedback ? `
+                                        <div class="p-3 bg-blue-50 rounded-lg border border-blue-100 text-xs text-blue-900">
+                                            <p class="font-bold mb-0.5">ข้อเสนอแนะจากคุณครูภูธเนศ:</p>
+                                            <p>${sub.feedback}</p>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            ` : `
+                                <form onsubmit="handleStudentSubmitAssignment(event)" class="space-y-4">
+                                    <div class="border-2 border-dashed border-slate-200 hover:border-blue-400 p-6 rounded-2xl text-center bg-slate-50/50 cursor-pointer relative">
+                                        <input type="file" id="assign-file-input" required onchange="updateFileNameDisplay(this)" class="absolute inset-0 opacity-0 cursor-pointer">
+                                        <i data-lucide="upload-cloud" class="w-8 h-8 text-blue-500 mx-auto mb-2"></i>
+                                        <p class="text-xs font-medium text-slate-700">คลิกหรือลากไฟล์งานมาวางที่นี่</p>
+                                        <p class="text-[10px] text-slate-400 mt-1">รองรับไฟล์ PDF, DOCX, PPTX, JPG, PNG (ไม่เกิน 10MB)</p>
+                                        <p id="file-name-display" class="text-xs font-bold text-blue-600 mt-2"></p>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-700 mb-1">คำอธิบายเพิ่มเติมเกี่ยวกับงานที่ส่ง</label>
+                                        <textarea id="assign-note-input" rows="2" class="w-full px-3 py-2 text-xs border rounded-xl" placeholder="พิมพ์บันทึกถึงครู..."></textarea>
+                                    </div>
+                                    <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs rounded-xl shadow transition flex items-center justify-center gap-2">
+                                        <i data-lucide="send" class="w-4 h-4"></i>
+                                        <span>ยืนยันการส่งงานออนไลน์</span>
+                                    </button>
+                                </form>
+                            `}
+                        </div>
+                    ` : `
+                        <!-- Teacher Grading View -->
+                        <div class="border-t border-slate-100 pt-4 space-y-4">
+                            <h4 class="font-bold text-slate-800 text-sm">การตรวจงานและให้คะแนน (มุมมองครู)</h4>
+                            ${sub.submitted ? `
+                                <div class="bg-slate-50 p-4 rounded-xl border space-y-3">
+                                    <div class="text-xs text-slate-700 space-y-1">
+                                        <p><span class="font-semibold">นักเรียน:</span> ${state.studentName}</p>
+                                        <p><span class="font-semibold">ไฟล์งานแนบ:</span> <a href="#" onclick="showToast('จำลองการเปิดไฟล์งานแนบเรียบร้อย')" class="text-blue-600 underline font-medium">${sub.fileName}</a></p>
+                                        <p><span class="font-semibold">เวลาส่ง:</span> ${sub.submittedAt}</p>
+                                    </div>
+                                    <form onsubmit="handleGradeAssignment(event)" class="space-y-3 pt-2 border-t border-slate-200">
+                                        <div class="grid grid-cols-2 gap-3">
+                                            <div>
+                                                <label class="block text-xs font-medium text-slate-700 mb-1">ให้คะแนน (เต็ม ${activeAssign.maxScore})</label>
+                                                <input type="number" id="grade-score-input" value="${sub.score || ''}" max="${activeAssign.maxScore}" required class="w-full px-3 py-1.5 text-xs border rounded-lg">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-medium text-slate-700 mb-1">ข้อเสนอแนะของครู</label>
+                                            <textarea id="grade-feedback-input" rows="2" class="w-full px-3 py-1.5 text-xs border rounded-lg" placeholder="เขียนข้อติชมเพิ่มเติม...">${sub.feedback || ''}</textarea>
+                                        </div>
+                                        <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium rounded-lg shadow">
+                                            บันทึกผลการตรวจ
+                                        </button>
+                                    </form>
+                                </div>
+                            ` : `
+                                <p class="text-xs text-slate-500 italic">นักเรียนยังไม่ได้ส่งงานนี้ในระบบ</p>
+                            `}
+                        </div>
+                    `}
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function selectAssignment(id) {
+            activeAssignmentId = id;
+            renderAssignmentsPage();
+        }
+
+        function updateFileNameDisplay(input) {
+            const display = document.getElementById('file-name-display');
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                if (file.size > 10 * 1024 * 1024) {
+                    showToast('ขนาดไฟล์เกิน 10MB กรุณาเลือกไฟล์ใหม่');
+                    input.value = '';
+                    display.innerText = '';
+                    return;
+                }
+                display.innerText = `ไฟล์ที่เลือก: ${file.name} (${(file.size / (1024 * 1024)).toFixed(2)} MB)`;
+            }
+        }
+
+        function handleStudentSubmitAssignment(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('assign-file-input');
+            const noteInput = document.getElementById('assign-note-input');
+
+            if (!fileInput.files || !fileInput.files[0]) {
+                showToast('กรุณาเลือกไฟล์แนบก่อนกดส่งงาน');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const assign = state.assignments.find(a => a.id === activeAssignmentId);
+            if (assign) {
+                assign.submission = {
+                    submitted: true,
+                    fileName: file.name,
+                    fileType: file.type,
+                    fileSize: `${(file.size / 1024).toFixed(1)} KB`,
+                    submittedAt: new Date().toLocaleString('th-TH'),
+                    studentNote: noteInput.value,
+                    status: 'submitted',
+                    score: null,
+                    feedback: ''
+                };
+                saveState();
+                showToast('ส่งงานออนไลน์สำเร็จเรียบร้อย');
+            }
+        }
+
+        function handleGradeAssignment(e) {
+            e.preventDefault();
+            const score = parseInt(document.getElementById('grade-score-input').value);
+            const feedback = document.getElementById('grade-feedback-input').value;
+
+            const assign = state.assignments.find(a => a.id === activeAssignmentId);
+            if (assign) {
+                assign.submission.status = 'graded';
+                assign.submission.score = score;
+                assign.submission.feedback = feedback;
+                saveState();
+                showToast('บันทึกคะแนนและคำแนะนำเรียบร้อย');
+            }
+        }
+
+        function renderGameStartScreen() {
+            const container = document.getElementById('game-container');
+            if (!container) return;
+
+            container.innerHTML = `
+                <div class="space-y-6">
+                    <div class="w-20 h-20 bg-amber-400/20 rounded-3xl mx-auto flex items-center justify-center text-amber-400 text-4xl border border-amber-400/30 shadow-lg">
+                        🕵️‍♂️
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-extrabold tracking-tight">นักสืบไซเบอร์ พิชิตมัลแวร์</h2>
+                        <p class="text-sm text-slate-300 mt-2 max-w-md mx-auto">
+                            วิเคราะห์สถานการณ์คดีภัยคุกคามไซเบอร์และมัลแวร์ 3 สถานการณ์ ตอบถูกได้คะแนนสะสม พร้อมจับเวลา 15 วินาทีต่อข้อ
+                        </p>
+                    </div>
+
+                    <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/10 max-w-sm mx-auto text-xs text-slate-200 flex justify-between">
+                        <span>คะแนนสูงสุดของคุณ:</span>
+                        <span class="font-bold text-amber-300">${state.gameHighScore} คะแนน</span>
+                    </div>
+
+                    <button onclick="startGame()" class="px-8 py-3.5 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 rounded-2xl font-bold text-base shadow-xl transition transform hover:scale-105 flex items-center justify-center space-x-2 mx-auto">
+                        <i data-lucide="play" class="w-5 h-5 fill-current"></i>
+                        <span>เริ่มเล่นเกมเลย!</span>
+                    </button>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function startGame() {
+            gameActive = true;
+            gameCurrentIndex = 0;
+            gameScore = 0;
+            renderGameQuestion();
+        }
+
+        function renderGameQuestion() {
+            if (gameCurrentIndex >= state.gameQuestions.length) {
+                endGame();
+                return;
+            }
+
+            const q = state.gameQuestions[gameCurrentIndex];
+            gameTimeLeft = 15;
+
+            const container = document.getElementById('game-container');
+            container.innerHTML = `
+                <div class="space-y-5 text-left">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="px-3 py-1 bg-blue-500/30 rounded-full text-blue-200 border border-blue-400/30 font-semibold">${q.caseNo}</span>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-slate-300">เวลาเหลือ:</span>
+                            <span id="game-timer" class="font-mono font-bold text-amber-300 text-base">15s</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/10 p-5 rounded-2xl border border-white/10 backdrop-blur-md space-y-2">
+                        <h4 class="text-sm font-semibold text-blue-200">แฟ้มคดีสืบสวน:</h4>
+                        <p class="text-base font-medium text-white leading-relaxed">"${q.story}"</p>
+                    </div>
+
+                    <p class="text-xs text-center text-slate-300">สถานการณ์นี้เกิดจากมัลแวร์หรือภัยคุกคามชนิดใด?</p>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        ${q.options.map((opt, idx) => `
+                            <button onclick="handleGameAnswer(${idx})" class="p-3.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-sm font-semibold text-white transition text-center hover:border-amber-400">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs text-slate-400 pt-2">
+                        <span>คะแนนสะสม: <strong class="text-amber-300">${gameScore}</strong></span>
+                        <span>ความคืบหน้า: ${gameCurrentIndex + 1}/${state.gameQuestions.length}</span>
+                    </div>
+                </div>
+            `;
+
+            // Start Timer Interval
+            clearInterval(gameTimer);
+            gameTimer = setInterval(() => {
+                gameTimeLeft--;
+                const timerEl = document.getElementById('game-timer');
+                if (timerEl) timerEl.innerText = `${gameTimeLeft}s`;
+
+                if (gameTimeLeft <= 0) {
+                    clearInterval(gameTimer);
+                    handleGameAnswer(-1); // Timeout
+                }
+            }, 1000);
+
+            lucide.createIcons();
+        }
+
+        function handleGameAnswer(selectedIdx) {
+            clearInterval(gameTimer);
+            const q = state.gameQuestions[gameCurrentIndex];
+            const isCorrect = selectedIdx === q.correct;
+
+            if (isCorrect) {
+                gameScore += 100 + gameTimeLeft * 5;
+            }
+
+            const container = document.getElementById('game-container');
+            container.innerHTML = `
+                <div class="space-y-5 text-center my-auto">
+                    <div class="w-16 h-16 rounded-full mx-auto ${isCorrect ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-400/40' : 'bg-rose-500/20 text-rose-400 border border-rose-400/40'} flex items-center justify-center text-3xl">
+                        ${isCorrect ? '✓' : '✕'}
+                    </div>
+                    <h3 class="text-2xl font-bold ${isCorrect ? 'text-emerald-400' : 'text-rose-400'}">
+                        ${isCorrect ? 'วิเคราะห์คดีถูกต้อง!' : 'ยังไม่อยู่ในคำตอบที่ถูก'}
+                    </h3>
+
+                    <div class="bg-white/10 p-4 rounded-2xl border border-white/10 text-left space-y-2 text-xs">
+                        <p class="font-bold text-amber-300">เฉลย: ${q.options[q.correct]}</p>
+                        <p class="text-slate-200 leading-relaxed">${q.prevention}</p>
+                    </div>
+
+                    <button onclick="nextGameQuestion()" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition mx-auto">
+                        สืบสวนคดีถัดไป →
+                    </button>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function nextGameQuestion() {
+            gameCurrentIndex++;
+            renderGameQuestion();
+        }
+
+        function endGame() {
+            gameActive = false;
+            clearInterval(gameTimer);
+
+            if (gameScore > state.gameHighScore) {
+                state.gameHighScore = gameScore;
+                saveState();
+            }
+
+            const container = document.getElementById('game-container');
+            container.innerHTML = `
+                <div class="space-y-6">
+                    <div class="text-5xl">🏆</div>
+                    <h2 class="text-3xl font-bold">ภารกิจนักสืบไซเบอร์เสร็จสิ้น!</h2>
+                    <p class="text-xs text-slate-300">คุณสามารถแยกแยะมัลแวร์และเสนอแนวทางป้องกันได้อย่างดีเยี่ยม</p>
+
+                    <div class="bg-white/10 p-6 rounded-2xl border border-white/10 max-w-sm mx-auto space-y-2">
+                        <p class="text-xs text-slate-300">คะแนนรวมที่ทำได้</p>
+                        <p class="text-4xl font-extrabold text-amber-300">${gameScore} คะแนน</p>
+                    </div>
+
+                    <div class="flex justify-center space-x-3">
+                        <button onclick="startGame()" class="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-xl text-xs transition">
+                            เล่นใหม่อีกครั้ง
+                        </button>
+                        <button onclick="navigateTo('dashboard')" class="px-6 py-3 bg-white/20 hover:bg-white/30 text-white font-medium rounded-xl text-xs transition">
+                            กลับหน้าหลัก
+                        </button>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function openModal(id) {
+            document.getElementById(id)?.classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id)?.classList.add('hidden');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast-notification');
+            const toastMsg = document.getElementById('toast-msg');
+            if (toast && toastMsg) {
+                toastMsg.innerText = msg;
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                setTimeout(() => {
+                    toast.classList.add('translate-y-20', 'opacity-0');
+                }, 3000);
+            }
+        }
+
+        // Teacher Form Handlers
+        function handleSaveLesson(e) {
+            e.preventDefault();
+            const title = document.getElementById('lesson-title-input').value;
+            const url = document.getElementById('lesson-url-input').value;
+            const desc = document.getElementById('lesson-desc-input').value;
+
+            let embedId = 'dQw4w9WgXcQ';
+            if (url.includes('v=')) embedId = url.split('v=')[1].split('&')[0];
+            else if (url.includes('youtu.be/')) embedId = url.split('youtu.be/')[1].split('?')[0];
+
+            state.lessons.push({
+                id: 'les-' + Date.now(),
+                title: title,
+                url: url,
+                embedId: embedId,
+                description: desc,
+                status: 'not_started',
+                takeaways: ['ศึกษาเพิ่มเติมตามคลิป']
+            });
+
+            saveState();
+            closeModal('add-lesson-modal');
+            showToast('เพิ่มบทเรียนวิดีโอใหม่สำเร็จ');
+        }
+
+        function deleteLesson(e, id) {
+            e.stopPropagation();
+            state.lessons = state.lessons.filter(l => l.id !== id);
+            saveState();
+            showToast('ลบบทเรียนเรียบร้อยแล้ว');
+        }
+
+        function handleSaveQuiz(e) {
+            e.preventDefault();
+            const qText = document.getElementById('quiz-question-input').value;
+            const opt0 = document.getElementById('quiz-opt-0').value;
+            const opt1 = document.getElementById('quiz-opt-1').value;
+            const opt2 = document.getElementById('quiz-opt-2').value;
+            const opt3 = document.getElementById('quiz-opt-3').value;
+            const correct = parseInt(document.getElementById('quiz-correct-input').value);
+            const exp = document.getElementById('quiz-explanation-input').value;
+
+            state.quizzes.push({
+                id: 'q-' + Date.now(),
+                question: qText,
+                options: [opt0, opt1, opt2, opt3],
+                correctIndex: correct,
+                explanation: `เฉลย: ${exp}`
+            });
+
+            saveState();
+            closeModal('add-quiz-modal');
+            showToast('เพิ่มคำถามแบบทดสอบเรียบร้อย');
+        }
+
+        function deleteQuiz(id) {
+            state.quizzes = state.quizzes.filter(q => q.id !== id);
+            saveState();
+            showToast('ลบข้อสอบเรียบร้อยแล้ว');
+        }
+
+        function handleSaveAssignment(e) {
+            e.preventDefault();
+            const title = document.getElementById('assign-title-input').value;
+            const desc = document.getElementById('assign-desc-input').value;
+            const score = parseInt(document.getElementById('assign-score-input').value);
+            const due = document.getElementById('assign-due-input').value;
+
+            state.assignments.push({
+                id: 'assign-' + Date.now(),
+                title: title,
+                description: desc,
+                maxScore: score,
+                dueDate: due,
+                submission: {
+                    submitted: false,
+                    fileName: '',
+                    fileType: '',
+                    fileSize: '',
+                    submittedAt: '',
+                    studentNote: '',
+                    status: 'pending',
+                    score: null,
+                    feedback: ''
+                }
+            });
+
+            saveState();
+            closeModal('add-assignment-modal');
+            showToast('มอบหมายภาระงานใหม่สำเร็จ');
+        }
+
+        function deleteAssignment(e, id) {
+            e.stopPropagation();
+            state.assignments = state.assignments.filter(a => a.id !== id);
+            saveState();
+            showToast('ลบงานที่มอบหมายเรียบร้อยแล้ว');
+        }
+    </script>
+</body>
+</html>
